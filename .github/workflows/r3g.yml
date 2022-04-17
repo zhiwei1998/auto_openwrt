@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: r3g_komd_ipk OpenWrt
+name: r3g OpenWrt
 
 on:
   repository_dispatch:
