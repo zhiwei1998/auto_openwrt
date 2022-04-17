@@ -94,10 +94,7 @@ jobs:
       id: package
       run: |
         cd openwrt
-        if "$KMODS_IN_FIRMWARE" = 'true'
-        then
-            echo "CONFIG_ALL_KMODS=y" >> .config
-        fi
+        [ $KMODS_IN_FIRMWARE = true ] && echo "CONFIG_ALL_KMODS=y" >> .config && echo by_kmod
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -129,11 +126,8 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/* 
-        if "$KMODS_IN_FIRMWARE" = 'true'
-        then
-            zip -q -r packages.zip packages
-        fi 
+        cd openwrt/bin/targets/*/*
+        [ $KMODS_IN_FIRMWARE = true ] && zip -q -r packages.zip packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
@@ -169,7 +163,7 @@ jobs:
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
-        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
+        [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
