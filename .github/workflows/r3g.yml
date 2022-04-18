@@ -94,7 +94,6 @@ jobs:
       id: package
       run: |
         cd openwrt
-        [ $KMODS_IN_FIRMWARE = true ] && echo "CONFIG_ALL_KMODS=y" >> .config && echo by_kmod
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
