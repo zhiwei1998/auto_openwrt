@@ -26,12 +26,11 @@ env:
   CONFIG_FILE: r3g_komd_ipk.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  KMODS_IN_FIRMWARE: false
   UPLOAD_BIN_DIR: true
-  UPLOAD_FIRMWARE: false
+  UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
-  UPLOAD_WETRANSFER: false
-  UPLOAD_RELEASE: false
+  UPLOAD_WETRANSFER: true
+  UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -94,10 +93,6 @@ jobs:
       id: package
       run: |
         cd openwrt
-        if "$KMODS_IN_FIRMWARE" = 'true'
-        then
-            echo "CONFIG_ALL_KMODS=y" >> .config
-        fi
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -130,10 +125,7 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/* 
-        if "$KMODS_IN_FIRMWARE" = 'true'
-        then
-            zip -q -r packages.zip packages
-        fi 
+        zip -q -r packages.zip packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
