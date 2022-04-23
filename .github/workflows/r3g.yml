@@ -125,7 +125,9 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        [ $KMODS_IN_FIRMWARE = true ] && cd openwrt/bin && zip -q -r bin.zip packages 
+        cd targets/*/*
+        mv ../../../bin.zip ./
         [ $KMODS_IN_FIRMWARE = true ] && zip -q -r packages.zip packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
