@@ -17,3 +17,5 @@
 export DATE_VERSION=$(date -d "$(rdate -n -4 -p pool.ntp.org)" +'%Y-%m-%d')
 sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_release
 
+# theme
+sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
