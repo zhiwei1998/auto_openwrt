@@ -60,7 +60,6 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        echo "${{ secrets.MIYAO }}"
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
@@ -121,7 +120,7 @@ jobs:
       id: uploadserver
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
       run: |
-	  cd openwrt
+	  pwd
           curl https://rclone.org/install.sh | sudo bash
           mkdir -p ~/.config/rclone/
           unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
