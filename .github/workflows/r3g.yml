@@ -117,11 +117,11 @@ jobs:
       run: df -hT
 
     - name upload server
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
+      id: uploadserver
       env:
           HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTHATCH_IP }}"
           REMOTE_PRIVATEKEY: "${{ secrets.HOSTHATCH_PRIVATEKEY }}"
-      if: env.REMOTE_PRIVATEKEY != null
+      if: env.REMOTE_PRIVATEKEY != null && steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
       run: |
           mkdir -p ~/.ssh/
           install -m 600 /dev/null ~/.ssh/id_rsa
