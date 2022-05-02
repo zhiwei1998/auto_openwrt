@@ -116,7 +116,7 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    - name upload server
+    - name: upload server
       id: uploadserver
       env:
           HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTHATCH_IP }}"
