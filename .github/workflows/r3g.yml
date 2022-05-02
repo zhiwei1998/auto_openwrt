@@ -123,9 +123,6 @@ jobs:
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
-        echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt
-        rclone mkdir openwrt:/openwrt
-        rclone sync -P ./bin openwrt:/openwrt/
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
@@ -138,6 +135,8 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
+        cd openwrt && pwd
+        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone mkdir openwrt:/openwrt && rclone sync -P ./bin openwrt:/openwrt/
         [ $KMODS_IN_FIRMWARE = true ] && cd openwrt/bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
