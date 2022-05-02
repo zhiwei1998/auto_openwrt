@@ -121,10 +121,10 @@ jobs:
       id: uploadserver
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
       run: |
+	  cd openwrt
           curl https://rclone.org/install.sh | sudo bash
           mkdir -p ~/.config/rclone/
           unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
-	  cd openwrt
           echo `date +"%Y-%m-%d %H:%M:%S"` >time.log
           rclone mkdir openwrt:/openwrt
           rclone move time.log openwrt:/openwrt/
