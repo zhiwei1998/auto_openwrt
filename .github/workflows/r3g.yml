@@ -116,18 +116,19 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    - name: upload server
+
+    - name: Unzip config #安装rclone 解压配置文件
       id: uploadserver
-      env:
-          HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTHATCH_IP }}"
-          REMOTE_PRIVATEKEY: "${{ secrets.HOSTHATCH_PRIVATEKEY }}"
-      if: env.REMOTE_PRIVATEKEY != null && steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
       run: |
-          mkdir -p ~/.ssh/
-          install -m 600 /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.HOSTHATCH_PRIVATEKEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' openwrt/bin $HOST:/data/openwrt
+          curl https://rclone.org/install.sh | sudo bash
+          mkdir -p ~/.config/rclone/
+          unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
+	  cd openwrt
+          echo `date +"%Y-%m-%d %H:%M:%S"` >time.log
+          rclone mkdir openwrt:/openwrt
+          rclone move time.log openwrt:/openwrt/
+          rclone copy bin openwrt:/openwrt/
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
