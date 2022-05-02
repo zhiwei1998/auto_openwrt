@@ -122,7 +122,7 @@ jobs:
           HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTHATCH_IP }}"
           REMOTE_PRIVATEKEY: "${{ secrets.HOSTHATCH_PRIVATEKEY }}"
       if: env.REMOTE_PRIVATEKEY != null
-      run:: |
+      run: |
           mkdir -p ~/.ssh/
           install -m 600 /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.HOSTHATCH_PRIVATEKEY }}" > ~/.ssh/id_rsa
