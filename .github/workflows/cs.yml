@@ -43,6 +43,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    - name: install rclone
+      if: env.UPLOAD_SERVER == 'true'
+      run: |
+        curl https://rclone.org/install.sh | sudo bash
+        mkdir -p ~/.config/rclone/
+        unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
+
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -55,14 +62,6 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-
-    - name: install rclone
-      id: uploadserver
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
-      run: |
-        curl https://rclone.org/install.sh | sudo bash
-        mkdir -p ~/.config/rclone/
-        unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
 
     - name: Clone source code
       working-directory: /workdir
