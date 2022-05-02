@@ -120,7 +120,6 @@ jobs:
       id: uploadserver
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
       run: |
-	cd openwrt
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
