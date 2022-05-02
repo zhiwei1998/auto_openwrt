@@ -120,13 +120,13 @@ jobs:
       id: uploadserver
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_SERVER == 'true'
       run: |
+	cd openwrt
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
-        echo `date +"%Y-%m-%d %H:%M:%S"` >time.log
+        echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt
         rclone mkdir openwrt:/openwrt
-        rclone move time.log openwrt:/openwrt/
-        rclone copy bin openwrt:/openwrt/
+        rclone sync -P ./bin openwrt:/openwrt/
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
