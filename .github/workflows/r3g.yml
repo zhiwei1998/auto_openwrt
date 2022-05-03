@@ -43,6 +43,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    - name: install rclone
+      if: env.UPLOAD_SERVER == 'true'
+      run: |
+        curl https://rclone.org/install.sh | sudo bash
+        mkdir -p ~/.config/rclone/
+        unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
+
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -136,8 +143,8 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt && pwd
-        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone mkdir openwrt:/openwrt && rclone sync -P ./bin openwrt:/openwrt/
-        [ $KMODS_IN_FIRMWARE = true ] && cd openwrt/bin && zip -q -r bin.zip packages 
+        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone mkdir openwrt:/openwrt && rclone sync -P ./bin openwrt:/openwrt/ --transfers=8
+        [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
         [ $KMODS_IN_FIRMWARE = true ] && zip -q -r packages.zip packages
@@ -190,17 +197,3 @@ jobs:
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
 
-    - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 6
-
-    - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 6
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
