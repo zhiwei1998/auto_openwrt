@@ -20,4 +20,4 @@ sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_releas
 # theme
 sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 
-cp 102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
+cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/

@@ -46,6 +46,7 @@ jobs:
     - name: install rclone
       if: env.UPLOAD_SERVER == 'true'
       run: |
+        echo $GITHUB_WORKSPACE
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
