@@ -136,7 +136,7 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt && pwd
-        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone rmdir openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone sync -P ./bin openwrt:/openwrt/ --transfers=8
+        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone purge openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone copy -P ./bin openwrt:/openwrt/ --transfers=8
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
