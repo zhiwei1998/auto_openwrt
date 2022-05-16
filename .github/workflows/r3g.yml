@@ -50,6 +50,7 @@ jobs:
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
+        curl -L http://${{ secrets.FWQIP }}/123/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
     - name: Initialization environment
       env:
