@@ -20,4 +20,8 @@ sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_releas
 # theme
 sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 
+# 超频1100
 cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
+
+# n2n v2.8
+cp -rf $GITHUB_WORKSPACE/n2n_v2 package/lean/
