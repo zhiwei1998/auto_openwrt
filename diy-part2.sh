@@ -24,4 +24,5 @@ sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
 
 # n2n v2.8
+rm -rf package/lean/n2n_v2
 cp -rf $GITHUB_WORKSPACE/n2n_v2 package/lean/
