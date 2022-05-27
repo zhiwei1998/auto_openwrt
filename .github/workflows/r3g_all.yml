@@ -23,11 +23,11 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: r3g.config
+  CONFIG_FILE: r3g_all.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   KMODS_IN_FIRMWARE: true
-  UPLOAD_SERVER: false
+  UPLOAD_SERVER: true
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -179,7 +179,7 @@ jobs:
         touch release.txt
         [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
-        echo "r3g 超频1100 精简编译" >>release.txt
+        echo "r3g 超频1100 多插件" >> release.txt
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
