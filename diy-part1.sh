@@ -19,7 +19,7 @@ echo 'src-git small https://github.com/kenzok8/small' >>feeds.conf.default
 echo 'src-git nezha https://github.com/Erope/openwrt_nezha' >>feeds.conf.default
 
 
-git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
+#git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
 
 rm -rf package/lean/luci-theme-argon
 git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
