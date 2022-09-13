@@ -27,7 +27,7 @@ env:
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   KMODS_IN_FIRMWARE: true
-  UPLOAD_SERVER: true
+  UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: true
@@ -37,6 +37,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    timeout-minutes: 720
 
     steps:
     - name: Checkout
