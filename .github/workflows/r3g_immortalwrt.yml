@@ -38,20 +38,19 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     timeout-minutes: 720
+    
   steps:
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 512
-        swap-size-mb: 1024
-        remove-dotnet: 'true'
+  
+   - name: Maximize build space
+     uses: easimon/maximize-build-space@master
+     with:
+       root-reserve-mb: 512
+       swap-size-mb: 1024
+       remove-dotnet: 'true'
+       
     - name: Checkout
-        uses: actions/checkout@v2
-        
-    - name: Build
-        run: |
-          echo "Free space:"
-          df -h
+        uses: actions/checkout@main   
+      
 
     - name: 安装rclone、哪吒监控
       if: env.UPLOAD_SERVER == 'true'
