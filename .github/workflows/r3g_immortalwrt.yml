@@ -45,10 +45,10 @@ jobs:
           root-reserve-mb: 512
           swap-size-mb: 1024
           remove-dotnet: 'true'
-          remove-android: 'true'
+          remove-android: 'false'
           
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@main
         
     - name: Build
       run: |
