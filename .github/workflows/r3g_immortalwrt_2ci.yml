@@ -71,10 +71,9 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         rclone copy -P openwrt:/$(cat $GITHUB_WORKSPACE/hjbf.txt) ./Backup.tar.gz
-        mv Backup.tar.gz /
-        cd /
-        tar -zxvpf Backup.tar.gz ./
+        tar -zxvpf Backup.tar.gz -C /workdir/openwrt
         rm -rf Backup.tar.gz
+        sleep 600
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd $GITHUB_WORKSPACE
         
