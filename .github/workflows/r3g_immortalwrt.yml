@@ -27,7 +27,7 @@ env:
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   KMODS_IN_FIRMWARE: true
-  UPLOAD_SERVER: true
+  UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: true
@@ -73,11 +73,11 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         
-  #  - name: Cache
-    #  uses: klever1988/cachewrtbuild@main
-    #  with:
-       # ccache: 'true'
-      #  prefix: ${{ github.workspace }}/openwrt
+    - name: Cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: 加载自定义源
       run: |
@@ -137,7 +137,12 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt && pwd
-        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone purge openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone copy -P ./bin openwrt:/openwrt/ --transfers=8
+        cd ../
+        tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz ./openwrt/
+        rclone copy -P Backup_* openwrt:/
+        ls -hl
+        cd openwrt && pwd
+        #[ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone purge openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone copy -P ./bin openwrt:/openwrt/ --transfers=8
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
@@ -183,12 +188,6 @@ jobs:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
+
         
-    - name: 备份编译文件
-      if: steps.compile.outputs.status == 'success' 
-      run: |
-        cd $GITHUB_WORKSPACE
-        tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz $GITHUB_WORKSPACE/openwrt
-        ls -hl Backup_*
-        rclone copy -P Backup_* openwrt:/
 
