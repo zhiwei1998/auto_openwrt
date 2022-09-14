@@ -136,7 +136,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        [ $UPLOAD_SERVER = true ] && cd openwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/openwrt && rclone copy -P Backup_* openwrt:/ && ls -hl
+        [ $UPLOAD_SERVER = true ] && cd openwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/openwrt && rclone copy -P Backup_* openwrt:/ && ls Backup* >hjbf.txt
         cd openwrt && pwd
         #[ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone purge openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone copy -P ./bin openwrt:/openwrt/ --transfers=8
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
