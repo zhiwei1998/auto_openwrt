@@ -10,6 +10,15 @@
 
 name: rclone 测试
 
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+        
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt
   REPO_BRANCH: master
@@ -24,6 +33,8 @@ env:
   UPLOAD_WETRANSFER: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
+
+
 
 jobs:
   build:
