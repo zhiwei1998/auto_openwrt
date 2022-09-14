@@ -69,11 +69,11 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
-        rclone copy -P openwrt:/$(cat $GITHUB_WORKSPACE/hjbf.txt) ./Backup.tar.gz
-        tar -zxvpf Backup.tar.gz -C /workdir/openwrt
-        rm -rf Backup.tar.gz
-        sleep 600
+        cd /workdir
+        rclone copy -P openwrt:/$(cat $GITHUB_WORKSPACE/hjbf.txt) /workdir/Backup.tar.gz
+        tar -zxvpf /workdir/Backup.tar.gz -C /workdir/openwrt
+        rm -rf /workdir/Backup.tar.gz
+        sleep 300
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd $GITHUB_WORKSPACE
         
