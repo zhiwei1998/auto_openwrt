@@ -74,11 +74,9 @@ jobs:
         sudo rm -rf openwrt
         #sleep 1200
         ls
-        sudo mv $(cat $GITHUB_WORKSPACE/hjbf.txt) /Backup.tar.gz
-        sudo cd /
-        sudo tar -zxvpf /Backup.tar.gz .
-        sudo rm -rf /Backup*
-        cd /workdir
+        sudo tar -zxvpf $(cat $GITHUB_WORKSPACE/hjbf.txt)
+        sudo mv workdir/openwrt ./
+        sudo rm -rf Backup* workdir
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd $GITHUB_WORKSPACE
         
