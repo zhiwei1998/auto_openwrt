@@ -79,14 +79,12 @@ jobs:
         sudo rm -rf Backup* workdir
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd $GITHUB_WORKSPACE
-        
-
+      
     - name: 更新自定义源
-      run: |
-        cd openwrt
-        git pull
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+      run: cd openwrt && ./scripts/feeds update -a
+      
+    - name: 安装自定义源
+      run: cd openwrt && ./scripts/feeds install -a
         
     - name: 加载自定义配置
       run: |
