@@ -70,11 +70,15 @@ jobs:
       run: |
         df -hT $PWD
         cd /workdir
-        rclone copy openwrt:/$(cat $GITHUB_WORKSPACE/hjbf.txt) Backup.tar.gz
+        rclone copy openwrt:/$(cat $GITHUB_WORKSPACE/hjbf.txt) ./
         sudo rm -rf openwrt
-        sleep 1200
-        sudo tar -zxvpf Backup.tar.gz -C openwrt
-        sudo rm -rf /workdir/Backup.tar.gz
+        #sleep 1200
+        ls
+        sudo mv $(cat $GITHUB_WORKSPACE/hjbf.txt) /Backup.tar.gz
+        sudo cd /
+        sudo tar -zxvpf /Backup.tar.gz .
+        sudo rm -rf /Backup*
+        cd /workdir
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd $GITHUB_WORKSPACE
         
