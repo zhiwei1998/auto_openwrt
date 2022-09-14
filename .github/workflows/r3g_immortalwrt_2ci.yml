@@ -119,13 +119,12 @@ jobs:
 
     - name: 整理文件，上传rclone
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt && pwd
-        cd ../
-        tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/openwrt
-        rclone copy -P Backup_* openwrt:/
-        ls Backup* >$GITHUB_WORKSPACE/hjbf.txt
+        if: steps.organize.outputs.status == 'success' && !cancelled()
+          cd openwrt && pwd && cd ../ && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/openwrt
+          rclone copy -P Backup_* openwrt:/
+          ls Backup* >$GITHUB_WORKSPACE/hjbf.txt
         cd openwrt && pwd
         #[ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone purge openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone copy -P ./bin openwrt:/openwrt/ --transfers=8
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
@@ -155,7 +154,7 @@ jobs:
 
     - name: 生成发布标签
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
@@ -166,7 +165,7 @@ jobs:
 
     - name: 上传固件 release
       uses: softprops/action-gh-release@v1
-      if: steps.organize.outputs.status == 'success' && if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
