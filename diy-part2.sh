@@ -28,4 +28,4 @@ rm -rf package/lean/n2n_v2
 cp -rf $GITHUB_WORKSPACE/n2n_v2 package/lean/
 
 # 更换8812au驱动
-svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
+#svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
