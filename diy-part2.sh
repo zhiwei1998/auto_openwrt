@@ -21,11 +21,11 @@ sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_releas
 sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 
 # 超频1100
-#cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
+cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
 
 # n2n v2.8
 rm -rf package/lean/n2n_v2
 cp -rf $GITHUB_WORKSPACE/n2n_v2 package/lean/
 
 # 更换8812au驱动
-svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
+#svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
