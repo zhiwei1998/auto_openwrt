@@ -12,7 +12,7 @@
 
 # Modify default IP
 sed -i 's/192.168.1.1/10.10.2.1/g' package/base-files/files/bin/config_generate
-sed -i 's/192.168/10.10/g' package/base-files/files/bin/config_generate
+#sed -i 's/192.168/10.10/g' package/base-files/files/bin/config_generate
 
 # Add date version
 export DATE_VERSION=$(date +'%Y-%m-%d-%H%M')
