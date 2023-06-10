@@ -25,8 +25,10 @@ sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 #cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
 
 # n2n v2.8
-rm -rf package/lean/n2n_v2
-cp -rf $GITHUB_WORKSPACE/n2n_v2 package/lean/
+#rm -rf package/lean/n2n_v2
+rm -rf package/feeds/packages/n2n
+mkdir package/feeds/packages/n2n
+cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/feeds/packages/n2n/
 
 # 更换8812au驱动
 #svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
