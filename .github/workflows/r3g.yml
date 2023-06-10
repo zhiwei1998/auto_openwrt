@@ -36,7 +36,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout
@@ -57,7 +57,8 @@ jobs:
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
-        sudo -E apt-get -qq install rename $(curl -fsSL git.io/depends-ubuntu-2004)
+        sudo -E apt-get -qq full-upgrade
+        sudo -E apt-get -qq install rename $(cat $GITHUB_WORKSPACE/yl.list)
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -82,7 +83,7 @@ jobs:
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+#        $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: 更新自定义源
       run: cd openwrt && ./scripts/feeds update -a
@@ -96,7 +97,7 @@ jobs:
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+ #       $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: 下载软件包
       id: package
