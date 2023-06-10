@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: r3g 精简
+name: r3g lede
 
 on:
   repository_dispatch:
@@ -30,7 +30,7 @@ env:
   UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
-  UPLOAD_WETRANSFER: true
+  UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
@@ -43,7 +43,7 @@ jobs:
       uses: actions/checkout@main
 
     - name: 安装rclone、哪吒监控
-      if: env.UPLOAD_SERVER == 'true'
+      if: env.UPLOAD_SERVER == 'false'
       run: |
         echo $GITHUB_WORKSPACE
         curl https://rclone.org/install.sh | sudo bash
