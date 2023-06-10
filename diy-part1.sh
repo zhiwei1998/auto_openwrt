@@ -26,3 +26,6 @@ echo 'src-git nezha https://github.com/Erope/openwrt_nezha' >>feeds.conf.default
 
 #git clone https://github.com/sirpdboy/luci-app-advanced package/lean/luci-app-advanced
 
+# n2n v2.8
+rm -rf package/lean/n2n_v2
+cp -rf $GITHUB_WORKSPACE/n2n_v2 package/lean/

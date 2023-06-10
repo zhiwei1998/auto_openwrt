@@ -26,9 +26,7 @@ sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 
 # n2n v2.8
 #rm -rf package/lean/n2n_v2
-rm -rf package/feeds/packages/n2n
-mkdir package/feeds/packages/n2n
-cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/feeds/packages/n2n/
+#cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/lean/
 
 # 更换8812au驱动
 #svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
