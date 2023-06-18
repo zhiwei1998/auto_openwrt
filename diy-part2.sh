@@ -28,5 +28,8 @@ sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 #rm -rf package/lean/n2n_v2
 #cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/lean/
 
+# 修改配置文件
+[ -s "feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent" ] && sed -i 's/"${secret}"/"${secret}" --skip-conn --skip-procs/g' feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent
+
 # 更换8812au驱动
 #svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
