@@ -142,6 +142,8 @@ jobs:
         cd targets/*/*
         mv ../../../bin.zip ./
         rename "s/openwrt/$(date +"%Y-%m-%d")-openwrt/" *
+        for z in $(ls *.bin); do md5=$(md5sum "$z" |cut -c1-8);rename "s/openwrt-ramips-mt7621/$md5/" "$z" ;done
+
         [ $KMODS_IN_FIRMWARE = true ] && zip -q -r packages.zip packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
