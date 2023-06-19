@@ -138,7 +138,7 @@ jobs:
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt && pwd
-        [ $UPLOAD_SERVER = true ] && ls -hl && tar -zcvpf $(date +"%Y-%m-%d")-openwrt.tar.gz /workdir/openwrt && ls -hl && rclone copy -P ./$(date +"%Y-%m-%d")-openwrt.tar.gz openwrt:/openwrt/
+        [ $UPLOAD_SERVER = true ] && cd openwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/openwrt && ls -hl && rclone copy -P *.tar.gz openwrt:/openwrt/ && cd openwrt
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
