@@ -28,7 +28,7 @@ env:
   DIY_P2_SH: diy-part2.sh
   KMODS_IN_FIRMWARE: true
   NEZHA_JK: true
-  UPLOAD_SERVER: true
+  UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: false
@@ -138,7 +138,7 @@ jobs:
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt && pwd
-        [ $UPLOAD_SERVER = true ] && cd ../ && tar -zcvpf $(date +"%Y-%m-%d")-openwrt.tar.gz ./openwrt && ls -hl *.tar.gz && rclone copy -P ./$(date +"%Y-%m-%d")-openwrt.tar.gz openwrt:/openwrt/ && cd openwrt
+        [ $UPLOAD_SERVER = true ] && tar -zcvpf $(date +"%Y-%m-%d")-openwrt.tar.gz ./ && ls -hl && rclone copy -P ./$(date +"%Y-%m-%d")-openwrt.tar.gz openwrt:/openwrt/
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
