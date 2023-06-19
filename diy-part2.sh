@@ -22,13 +22,13 @@ sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_releas
 sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
 
 # 超频1100
-#cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
+cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4/
 
 # n2n v2.8
 #rm -rf package/lean/n2n_v2
 #cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/lean/
 
-# 修改配置文件
+# 修改nezha配置文件
 [ -s "feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent" ] && sed -i 's/"${secret}"/"${secret}" --skip-conn --skip-procs/g' feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent
 
 # 更换8812au驱动
