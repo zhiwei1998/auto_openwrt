@@ -28,7 +28,7 @@ env:
   DIY_P2_SH: diy-part2.sh
   KMODS_IN_FIRMWARE: true
   NEZHA_JK: true
-  UPLOAD_SERVER: false
+  UPLOAD_SERVER: true
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: false
