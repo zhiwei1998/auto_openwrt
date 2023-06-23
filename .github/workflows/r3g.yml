@@ -51,7 +51,6 @@ jobs:
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
         sudo mkdir -p /root/.config/rclone/
         sudo unzip -P ${{ secrets.PASSWD }} rclone.zip -d /root/.config/rclone/
-        #curl -L http://${{ secrets.FWQIP }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
         curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
 
     - name: 初始化环境
@@ -75,11 +74,11 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-#    - name: Cache
-#      uses: klever1988/cachewrtbuild@main
-#      with:
-#        ccache: 'true'
-#        prefix: ${{ github.workspace }}/openwrt
+    - name: Cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'false'
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: 加载自定义源
       run: |
