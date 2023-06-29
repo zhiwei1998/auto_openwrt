@@ -165,7 +165,7 @@ jobs:
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
         [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
-        echo "r3g lede 开源驱动,超频1100" >>release.txt
+        echo "x86 lede" >>release.txt
         echo "::set-output name=status::success"
 
     - name: 上传固件 release
