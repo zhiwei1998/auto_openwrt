@@ -26,7 +26,7 @@ env:
   CONFIG_FILE: x86.config
   DIY_P1_SH: diy-part1.sh
   KMODS_IN_FIRMWARE: true
-  NEZHA_JK: true
+  NEZHA_JK: false
   UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
