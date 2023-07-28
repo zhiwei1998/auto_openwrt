@@ -15,8 +15,11 @@ sed -i 's/192.168.1.1/10.10.2.1/g' package/base-files/files/bin/config_generate
 #sed -i 's/192.168/10.10/g' package/base-files/files/bin/config_generate
 
 # Add date version
-export DATE_VERSION=$(date +'%Y-%m-%d-%H%M')
-sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_release
+#export DATE_VERSION=$(date +'%Y-%m-%d-%H%M')
+#sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_release
+
+# 加入编译者信息
+sed -i "s/OpenWrt /zhiwei1998 build $(TZ=UTC-8 date "+%Y-%m-%d-%H:%M") @ OpenWrt /g" package/lean/default-settings/files/zzz-default-settings
 
 # theme
 sed -i "s/bootstrap/argon/g" feeds/luci/collections/luci/Makefile
