@@ -62,6 +62,19 @@ experimental:
 #   '*.clash.dev': 127.0.0.1
 #   'alpha.clash.dev': '::1'
 
+
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - 8.8.8.8
+    - tcp://8.8.8.8:53
+    - any:53
+    - tcp://any:53
+  auto-route: true
+  auto-detect-interface: true
+
+
 dns:
   enable: true # 是否启用dns false
   ipv6: false
@@ -101,82 +114,6 @@ dns:
      - "*.ntp.org.cn"
      - "+.pool.ntp.org"
      - time1.cloud.tencent.com
-     - music.163.com
-     - "*.music.163.com"
-     - "*.126.net"
-     - musicapi.taihe.com
-     - music.taihe.com
-     - songsearch.kugou.com
-     - trackercdn.kugou.com
-     - "*.kuwo.cn"
-     - api-jooxtt.sanook.com
-     - api.joox.com
-     - joox.com
-     - y.qq.com
-     - "*.y.qq.com"
-     - streamoc.music.tc.qq.com
-     - mobileoc.music.tc.qq.com
-     - isure.stream.qqmusic.qq.com
-     - dl.stream.qqmusic.qq.com
-     - aqqmusic.tc.qq.com
-     - amobile.music.tc.qq.com
-     - "*.xiami.com"
-     - "*.music.migu.cn"
-     - music.migu.cn
-     - "+.msftconnecttest.com"
-     - "+.msftncsi.com"
-     - localhost.ptlogin2.qq.com
-     - localhost.sec.qq.com
-     - "+.qq.com"
-     - "+.tencent.com"
-     - "+.srv.nintendo.net"
-     - "*.n.n.srv.nintendo.net"
-     - "+.stun.playstation.net"
-     - xbox.*.*.microsoft.com
-     - "*.*.xboxlive.com"
-     - xbox.*.microsoft.com
-     - xnotify.xboxlive.com
-     - "+.battlenet.com.cn"
-     - "+.wotgame.cn"
-     - "+.wggames.cn"
-     - "+.wowsgame.cn"
-     - "+.wargaming.net"
-     - proxy.golang.org
-     - stun.*.*
-     - stun.*.*.*
-     - "+.stun.*.*"
-     - "+.stun.*.*.*"
-     - "+.stun.*.*.*.*"
-     - "+.stun.*.*.*.*.*"
-     - heartbeat.belkin.com
-     - "*.linksys.com"
-     - "*.linksyssmartwifi.com"
-     - "*.router.asus.com"
-     - mesu.apple.com
-     - swscan.apple.com
-     - swquery.apple.com
-     - swdownload.apple.com
-     - swcdn.apple.com
-     - swdist.apple.com
-     - lens.l.google.com
-     - stun.l.google.com
-     - na.b.g-tun.com
-     - "+.nflxvideo.net"
-     - "*.square-enix.com"
-     - "*.finalfantasyxiv.com"
-     - "*.ffxiv.com"
-     - "*.ff14.sdo.com"
-     - ff.dorado.sdo.com
-     - "*.mcdn.bilivideo.cn"
-     - "+.media.dssott.com"
-     - shark007.net
-     - Mijia Cloud
-     - "+.cmbchina.com"
-     - "+.cmbimg.com"
-     - local.adguard.org
-     - "+.sandai.net"
-     - "+.n0808.com"
-
 
 
   nameserver:
