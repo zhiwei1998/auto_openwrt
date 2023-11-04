@@ -28,7 +28,7 @@ DOMAIN,share.acgnx.se
 
 #### emby ####
 
-DOMAIN-SUFFIX,embyplus.org
+DOMAIN,embyplus.org
 DOMAIN-SUFFIX,themoviedb.org
 DOMAIN-SUFFIX,thetvdb.com
 DOMAIN-SUFFIX,tmdb.org
