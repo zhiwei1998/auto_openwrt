@@ -1,6 +1,4 @@
-#---------------------------------------------------#
-# 配置文件需要放置在 $HOME/.config/clash/config.yml
-# 或者运行目录下的config.yml
+#---------------------------------------------------# 配置文件需要放置在 $HOME/.config/clash/config.yml 或者运行目录下的config.yml
 #---------------------------------------------------#
 # 混合端口 HTTP和SOCKS5用一个端口
 #mixed-port: 7890
@@ -63,16 +61,16 @@ experimental:
 #   'alpha.clash.dev': '::1'
 
 
-tun:
-  enable: true
-  stack: system
-  dns-hijack:
-    - 8.8.8.8
-    - tcp://8.8.8.8:53
-    - any:53
-    - tcp://any:53
-  auto-route: true
-  auto-detect-interface: true
+#tun:
+#  enable: true
+#  stack: system
+#  dns-hijack:
+#    - 8.8.8.8
+#    - tcp://8.8.8.8:53
+#    - any:53
+#    - tcp://any:53
+#  auto-route: true
+#  auto-detect-interface: true
 
 
 dns:
