@@ -41,5 +41,8 @@ cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips
 rm -rf "feeds/luci/applications/luci-app-mosdns"
 rm -rf "feeds/packages/net/mosdns"
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+cp -rf feeds/kenzo/mosdns feeds/packages/net/mosdns
+cp -rf feeds/kenzo/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
+
+#./scripts/feeds update -a
+#./scripts/feeds install -a
