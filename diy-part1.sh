@@ -33,3 +33,4 @@ echo 'src-git nezha https://github.com/Erope/openwrt_nezha' >>feeds.conf.default
 # 删除lede自带的mosdns
 rm -rf "feeds/luci/applications/luci-app-mosdns"
 rm -rf "feeds/packages/net/mosdns"
+

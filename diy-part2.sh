@@ -40,3 +40,6 @@ cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips
 # 删除lede自带的mosdns
 rm -rf "feeds/luci/applications/luci-app-mosdns"
 rm -rf "feeds/packages/net/mosdns"
+
+./scripts/feeds update -a
+./scripts/feeds install -a
