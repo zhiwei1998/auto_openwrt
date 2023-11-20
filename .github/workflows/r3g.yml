@@ -51,7 +51,7 @@ jobs:
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
         sudo mkdir -p /root/.config/rclone/
         sudo unzip -P ${{ secrets.PASSWD }} rclone.zip -d /root/.config/rclone/
-        curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 27042 5998a03097e84c88d4
+        curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
 
     - name: 初始化环境
       env:
