@@ -23,10 +23,11 @@ DOMAIN-SUFFIX,zztt15.com
 DOMAIN-SUFFIX,tojav.net
 DOMAIN-SUFFIX,v2rayse.com
 DOMAIN-SUFFIX,database.clamav.net
-DOMAIN,bit.ly
-DOMAIN,share.acgnx.se
-DOMAIN,acg.rip
-DOMAIN,arduino.cc
+DOMAIN-SUFFIX,bit.ly
+DOMAIN-SUFFIX,share.acgnx.se
+DOMAIN-SUFFIX,acg.rip
+DOMAIN-SUFFIX,arduino.cc
+DOMAIN-SUFFIX,fsm.name
 
 #### emby ####
 
