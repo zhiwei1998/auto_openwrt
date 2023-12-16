@@ -1,5 +1,5 @@
 # 内容：自定义列表
-# 更新：2023-10-30 21:26:59
+# 更新：2023-12-17 01:03
 
 # PROCESS-NAME,curl,DIRECT #匹配路由自身进程(curl直连)
 # DOMAIN-SUFFIX,google.com,Proxy #匹配域名后缀(交由Proxy代理服务器组)
@@ -27,6 +27,7 @@ DOMAIN-SUFFIX,bit.ly
 DOMAIN-SUFFIX,share.acgnx.se
 DOMAIN-SUFFIX,acg.rip
 DOMAIN-SUFFIX,arduino.cc
+DOMAIN-SUFFIX,fsm.name
 DOMAIN-SUFFIX,fsm.name
 
 #### emby ####
