@@ -61,16 +61,17 @@ experimental:
 #   'alpha.clash.dev': '::1'
 
 
-#tun:
-#  enable: true
-#  stack: system
-#  dns-hijack:
-#    - 8.8.8.8
-#    - tcp://8.8.8.8:53
-#    - any:53
-#    - tcp://any:53
-#  auto-route: true
-#  auto-detect-interface: true
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - 8.8.8.8
+    - tcp://8.8.8.8:53
+    - 1.0.0.1:53
+    - any:53
+    - tcp://any:53
+  auto-route: true
+  auto-detect-interface: true
 
 
 dns:
