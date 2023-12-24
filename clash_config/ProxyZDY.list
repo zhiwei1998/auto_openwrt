@@ -28,9 +28,7 @@ DOMAIN-SUFFIX,share.acgnx.se
 DOMAIN-SUFFIX,acg.rip
 DOMAIN-SUFFIX,arduino.cc
 DOMAIN-SUFFIX,fsm.name
-DOMAIN-SUFFIX,fsm.name
-
-#### emby ####
+DOMAIN-SUFFIX,imgbox.com
 
 DOMAIN,embyplus.org
 DOMAIN-SUFFIX,themoviedb.org
