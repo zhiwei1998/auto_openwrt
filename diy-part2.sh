@@ -46,3 +46,5 @@ cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips
 
 #./scripts/feeds update -a
 #./scripts/feeds install -a
+
+sed -i 's#GO_PKG_TARGET_VARS.*# #g' feeds/packages/utils/v2dat/Makefile
