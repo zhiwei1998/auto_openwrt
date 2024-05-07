@@ -38,11 +38,11 @@ cp $GITHUB_WORKSPACE/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips
 #svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/rtl8812au-ac package/rtl8812au-ac
 
 # 删除lede自带的mosdns
-rm -rf "feeds/luci/applications/luci-app-mosdns"
-rm -rf "feeds/packages/net/mosdns"
+#rm -rf "feeds/luci/applications/luci-app-mosdns"
+#rm -rf "feeds/packages/net/mosdns"
 
-cp -rf feeds/kenzo/mosdns feeds/packages/net/mosdns
-cp -rf feeds/kenzo/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
+#cp -rf feeds/kenzo/mosdns feeds/packages/net/mosdns
+#cp -rf feeds/kenzo/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
 
 #./scripts/feeds update -a
 #./scripts/feeds install -a
