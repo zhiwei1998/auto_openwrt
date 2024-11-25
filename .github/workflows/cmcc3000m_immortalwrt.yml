@@ -49,8 +49,8 @@ jobs:
         echo $GITHUB_WORKSPACE
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
-        curl -s ${{ secrets.RCLONE_CONFIG }} >~/.config/rclone/rclone.conf
-        curl -L http://${{ secrets.FWQIP }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
+        curl -s ${{ secrets.CONFIG_PATH }}/rclone.conf >~/.config/rclone/rclone.conf
+        curl -L http://${{ secrets.CONFIG_PATH }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
     - name: 初始化环境
       env:
