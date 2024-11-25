@@ -4,11 +4,11 @@
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
 #
-# https://github.com/P3TERX/Actions-OpenWrt
-# Description: Build OpenWrt using GitHub Actions
+# https://github.com/P3TERX/Actions-immortalwrt
+# Description: Build immortalwrt using GitHub Actions
 #
 
-name: r3g lede
+name: cmcc3000m_immortalwrt
 
 on:
   repository_dispatch:
@@ -20,14 +20,14 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x.git
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: r3g.config
-  DIY_P1_SH: diy-part1.sh
-  DIY_P2_SH: diy-part2.sh
+  CONFIG_FILE: cmcc3000m.config
+  DIY_P1_SH: cmcc3000m_diy-part1.sh
+  DIY_P2_SH: cmcc3000m_diy-part2.sh
   KMODS_IN_FIRMWARE: true
-  UPLOAD_SERVER: false
+  UPLOAD_SERVER: true
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: false
@@ -36,30 +36,28 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
+    timeout-minutes: 720
 
     steps:
     - name: Checkout
       uses: actions/checkout@main
 
     - name: 安装rclone、哪吒监控
-      if: env.UPLOAD_SERVER == 'false'
+      if: env.UPLOAD_SERVER == 'true'
       run: |
         echo $GITHUB_WORKSPACE
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         unzip -P ${{ secrets.PASSWD }} rclone.zip -d ~/.config/rclone/
-        #curl -L http://${{ secrets.FWQIP }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
-        curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+        curl -L http://${{ secrets.FWQIP }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
     - name: 初始化环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo -E apt-get -qq update
-        sudo -E apt-get -qq full-upgrade
-        sudo -E apt-get -qq install rename $(cat $GITHUB_WORKSPACE/yl.list)
+        curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh | sudo bash
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -70,40 +68,40 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        git clone $REPO_URL -b $REPO_BRANCH immortalwrt
+        ln -sf /workdir/immortalwrt $GITHUB_WORKSPACE/immortalwrt
         
     - name: Cache
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
-        prefix: ${{ github.workspace }}/openwrt
+        prefix: ${{ github.workspace }}/immortalwrt
 
     - name: 加载自定义源
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF immortalwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
-        cd openwrt
+        cd immortalwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: 更新自定义源
-      run: cd openwrt && ./scripts/feeds update -a
+      run: cd immortalwrt && ./scripts/feeds update -a
 
     - name: 安装自定义源
-      run: cd openwrt && ./scripts/feeds install -a
+      run: cd immortalwrt && ./scripts/feeds install -a
 
     - name: 加载自定义配置
       run: |
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e files ] && mv files immortalwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE immortalwrt/.config
         chmod +x $DIY_P2_SH
-        cd openwrt
+        cd immortalwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: 下载软件包
       id: package
       run: |
-        cd openwrt
+        cd immortalwrt
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -112,7 +110,7 @@ jobs:
     - name: 编译固件
       id: compile
       run: |
-        cd openwrt
+        cd immortalwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "::set-output name=status::success"
@@ -129,21 +127,20 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: openwrt/bin
+        name: immortalwrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: immortalwrt/bin
 
     - name: 整理文件，上传rclone
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt && pwd
-        [ $UPLOAD_SERVER = true ] && echo `date +"%Y-%m-%d %H:%M:%S"` >bin/time.txt && rclone purge openwrt:/openwrt && rclone mkdir openwrt:/openwrt && rclone copy -P ./bin openwrt:/openwrt/ --transfers=8
+        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt && rclone copy -P Backup_* od01:/openwrt/ && ls Backup* >$GITHUB_WORKSPACE/hjbf.txt
+        cd immortalwrt && pwd
+        
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages 
         cd targets/*/*
         mv ../../../bin.zip ./
-        rename "s/openwrt/$(date +"%Y-%m-%d")-openwrt/" *
-        for z in $(ls *.bin); do md5=$(md5sum "$z" |cut -c1-8);rename "s/openwrt-ramips-mt7621/$md5/" "$z" ;done
-
+        rename "s/immortalwrt/$(date +"%Y-%m-%d")-immortalwrt/" *
         [ $KMODS_IN_FIRMWARE = true ] && zip -q -r packages.zip packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
@@ -153,7 +150,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: immortalwrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: 将固件上载到 WeTransfer
@@ -173,7 +170,7 @@ jobs:
         touch release.txt
         [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
-        echo "r3g lede 开源驱动,超频1100" >>release.txt
+        echo "r3g immortalwrt" >>release.txt
         echo "::set-output name=status::success"
 
     - name: 上传固件 release
@@ -185,4 +182,6 @@ jobs:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
+
+        
 
