@@ -21,7 +21,6 @@ on:
 
 env:
   REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x.git
-  REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: cmcc3000m.config
   DIY_P1_SH: cmcc3000m_diy-part1.sh
@@ -73,7 +72,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH immortalwrt
+        git clone --depth=1 $REPO_URL immortalwrt
         ln -sf /workdir/immortalwrt $GITHUB_WORKSPACE/immortalwrt
         
     - name: Cache
