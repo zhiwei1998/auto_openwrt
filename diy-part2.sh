@@ -11,12 +11,25 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/10.10.2.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/10.10.3.1/g' package/base-files/files/bin/config_generate
 #sed -i 's/192.168/10.10/g' package/base-files/files/bin/config_generate
 
 # Add date version
 #export DATE_VERSION=$(date +'%Y-%m-%d-%H%M')
 #sed -i "s/%C/%C (${DATE_VERSION})/g" package/base-files/files/etc/openwrt_release
+
+
+# 更新golang 版本
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
+
+# drop mosdns and v2ray-geodata packages that come with the source
+find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
+find ./ | grep Makefile | grep mosdns | xargs rm -f
+
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+
 
 # 加入编译者信息
 sed -i "s/OpenWrt /zhiwei1998 build $(TZ=UTC-8 date "+%Y-%m-%d-%H:%M") @ OpenWrt /g" package/lean/default-settings/files/zzz-default-settings
