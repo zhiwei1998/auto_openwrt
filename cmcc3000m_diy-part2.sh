@@ -13,6 +13,12 @@
 # Modify default IP
 sed -i 's/192.168.1.1/10.10.2.1/g' package/base-files/files/bin/config_generate
 
+# 添加编译日期标识
+sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ zhiwei1998 build $(TZ=UTC-8 date "+%Y-%m-%d-%H:%M")')/g" $(find ./feeds/luci/modules/luci-mod-status/ -type f -name "10_system.js")
+
+# 修改immortalwrt.lan关联IP
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/10.10.2.1/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
+
 
 # 更新golang 版本
 rm -rf feeds/packages/lang/golang
