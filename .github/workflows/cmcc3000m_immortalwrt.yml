@@ -49,10 +49,9 @@ jobs:
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         echo 更新rclone配置
-        curl -L ${{ secrets.CONFIG_PATH }}/rclone.conf >~/.config/rclone/rclone.conf
+        curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf >~/.config/rclone/rclone.conf
         echo 更新nezha配置
-
-        curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+        curl -sSL https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
 
         #curl -L ${{ secrets.CONFIG_PATH }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
@@ -62,6 +61,7 @@ jobs:
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         curl -sSL https://build-scripts.immortalwrt.eu.org/init_build_environment.sh | sudo bash
+        sudo -E apt-get -qq install rename
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
