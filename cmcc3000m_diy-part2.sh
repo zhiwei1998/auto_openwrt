@@ -11,7 +11,7 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/10.10.3.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/10.10.2.1/g' package/base-files/files/bin/config_generate
 
 
 # 更新golang 版本
