@@ -53,7 +53,7 @@ Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2sock
 #cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/lean/
 
 # 修改nezha配置文件
-#[ -s "feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent" ] && sed -i 's/"${secret}"/"${secret}" --skip-conn --skip-procs/g' feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent
+#[ -s "feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent" ] && sed -i 's/"${secret}"/"${secret}" --skip-conn --skip-procs --disable-auto-update/g' feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent
 
 
 #./scripts/feeds update -a
