@@ -51,7 +51,8 @@ jobs:
         echo 更新rclone配置
         curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf >~/.config/rclone/rclone.conf
         echo 更新nezha配置
-        curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+        #curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+        chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
 
         #curl -L ${{ secrets.CONFIG_PATH }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
