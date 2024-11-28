@@ -8,7 +8,7 @@
 # Description: Build immortalwrt using GitHub Actions
 #
 
-name: cmcc3000m_immortalwrt
+name: cmcc3000m_all_kmods
 
 on:
   repository_dispatch:
