@@ -303,11 +303,7 @@ install_agent() {
     sudo mkdir -p $NZ_AGENT_PATH
 
     echo "正在下载监控端"
-    if [ -z "$CN" ]; then
-        NZ_AGENT_URL="https://${GITHUB_URL}/nezhahq/agent/releases/download/${_version}/nezha-agent_linux_${os_arch}.zip"
-    else
-        NZ_AGENT_URL="https://${GITHUB_URL}/naibahq/agent/releases/download/${_version}/nezha-agent_linux_${os_arch}.zip"
-    fi
+    NZ_AGENT_URL="https://alist.tozhi.top:5245/d/Download/nezha/${_version}/nezha-agent_linux_${os_arch}.zip"
 
     _cmd="wget -t 2 -T 60 -O nezha-agent_linux_${os_arch}.zip $NZ_AGENT_URL >/dev/null 2>&1"
     if ! eval "$_cmd"; then
