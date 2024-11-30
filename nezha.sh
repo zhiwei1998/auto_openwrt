@@ -50,19 +50,7 @@ info() {
 }
 
 geo_check() {
-    api_list="https://blog.cloudflare.com/cdn-cgi/trace https://dash.cloudflare.com/cdn-cgi/trace https://developers.cloudflare.com/cdn-cgi/trace"
-    ua="Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0"
-    set -- "$api_list"
-    for url in $api_list; do
-        text="$(curl -A "$ua" -m 10 -s "$url")"
-        endpoint="$(echo "$text" | sed -n 's/.*h=\([^ ]*\).*/\1/p')"
-        if echo "$text" | grep -qw 'CN'; then
-            isCN=true
-            break
-        elif echo "$url" | grep -q "$endpoint"; then
-            break
-        fi
-    done
+            isCN=""
 }
 
 pre_check() {
@@ -85,36 +73,7 @@ pre_check() {
 
     ## China_IP
     if [ -z "$CN" ]; then
-        geo_check
-        if [ -n "$isCN" ]; then
-            echo "根据geoip api提供的信息，当前IP可能在中国"
-            printf "是否选用中国镜像完成安装? [Y/n] (自定义镜像输入 3)："
-            read -r input
-            case $input in
-            [yY][eE][sS] | [yY])
-                echo "使用中国镜像"
-                CN=true
-                ;;
-
-            [nN][oO] | [nN])
-                echo "不使用中国镜像"
-                ;;
-
-            [3])
-                echo "使用自定义镜像"
-                printf "请输入自定义镜像 (例如:dn-dao-github-mirror.daocloud.io),留空为不使用："
-                read -r input
-                case $input in
-                *)
-                    CUSTOM_MIRROR=$input
-                    ;;
-                esac
-                ;;
-            *)
-                echo "不使用中国镜像"
-                ;;
-            esac
-        fi
+        CN=true
     fi
 
     if [ -n "$CUSTOM_MIRROR" ]; then
@@ -182,23 +141,7 @@ select_version() {
         info "请自行选择您的安装方式（如果你是安装Agent，输入哪个都是一样的）："
         info "1. Docker"
         info "2. 独立安装"
-        while true; do
-            printf "请输入选择 [1-2]："
-            read -r option
-            case "${option}" in
-                1)
-                    IS_DOCKER_NEZHA=1
-                    break
-                    ;;
-                2)
-                    IS_DOCKER_NEZHA=0
-                    break
-                    ;;
-                *)
-                    err "请输入正确的选择 [1-2]"
-                    ;;
-            esac
-        done
+        IS_DOCKER_NEZHA=2
     fi
 }
 
@@ -347,17 +290,7 @@ install_agent() {
     echo "正在获取监控Agent版本号"
 
 
-#    _version=$(curl -m 10 -sL "https://api.github.com/repos/nezhahq/agent/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
-     _version=v0.20.13
-    if [ -z "$_version" ]; then
-        _version=$(curl -m 10 -sL "https://gitee.com/api/v5/repos/naibahq/agent/releases/latest" | awk -F '"' '{for(i=1;i<=NF;i++){if($i=="tag_name"){print $(i+2)}}}')
-    fi
-    if [ -z "$_version" ]; then
-        _version=$(curl -m 10 -sL "https://fastly.jsdelivr.net/gh/nezhahq/agent/" | grep "option\.value" | awk -F "'" '{print $2}' | sed 's/nezhahq\/agent@/v/g')
-    fi
-    if [ -z "$_version" ]; then
-        _version=$(curl -m 10 -sL "https://gcore.jsdelivr.net/gh/nezhahq/agent/" | grep "option\.value" | awk -F "'" '{print $2}' | sed 's/nezhahq\/agent@/v/g')
-    fi
+     _version=v0.20.5
 
     if [ -z "$_version" ]; then
         err "获取 Agent 版本号失败，请检查本机能否链接 https://api.github.com/repos/nezhahq/agent/releases/latest"
