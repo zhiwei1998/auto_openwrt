@@ -22,7 +22,7 @@ on:
 env:
   REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x.git
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: cmcc3000m_all.config
+  CONFIG_FILE: cmcc3000m/v2.config
   DIY_P1_SH: cmcc3000m_diy-part1.sh
   DIY_P2_SH: cmcc3000m_diy-part2.sh
   KMODS_IN_FIRMWARE: true
