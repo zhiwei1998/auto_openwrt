@@ -49,7 +49,7 @@ jobs:
         curl https://rclone.org/install.sh | sudo bash
         mkdir -p ~/.config/rclone/
         echo 更新rclone配置
-        curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf >~/.config/rclone/rclone.conf
+        sudo curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf >/root/.config/rclone/rclone.conf
         echo 更新nezha配置
         #curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
         chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
@@ -139,7 +139,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        #[ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1 && rclone copy -P Backup_* od01:/openwrt/ && ls Backup* >$GITHUB_WORKSPACE/hjbf.txt
+        #[ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1 && sudo rclone copy -P Backup_* od01:/openwrt/ && ls Backup* >$GITHUB_WORKSPACE/hjbf.txt
         cd immortalwrt && pwd
 
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages
