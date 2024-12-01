@@ -47,9 +47,9 @@ jobs:
       run: |
         echo $GITHUB_WORKSPACE
         curl https://rclone.org/install.sh | sudo bash
-        mkdir -p ~/.config/rclone/
+        sudo mkdir -p /root/.config/rclone
         echo 更新rclone配置
-        sudo curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf >/root/.config/rclone/rclone.conf
+        sudo curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf -o /root/.config/rclone/rclone.conf
         echo 更新nezha配置
         #curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
         chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
