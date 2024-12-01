@@ -8,7 +8,7 @@
 # Description: Build immortalwrt using GitHub Actions
 #
 
-name: cmcc3000m_all_kmods
+name: cmcc3000m_all
 
 on:
   repository_dispatch:
@@ -22,7 +22,7 @@ on:
 env:
   REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x.git
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: cmcc3000m.config
+  CONFIG_FILE: cmcc3000m_all.config
   DIY_P1_SH: cmcc3000m_diy-part1.sh
   DIY_P2_SH: cmcc3000m_diy-part2.sh
   KMODS_IN_FIRMWARE: true
@@ -51,7 +51,9 @@ jobs:
         echo 更新rclone配置
         curl -sSL ${{ secrets.CONFIG_PATH }}/rclone.conf >~/.config/rclone/rclone.conf
         echo 更新nezha配置
-        curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+        #curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+        chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
+
         #curl -L ${{ secrets.CONFIG_PATH }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
     - name: 初始化环境
@@ -73,7 +75,7 @@ jobs:
         df -hT $PWD
         git clone --depth=1 $REPO_URL immortalwrt
         ln -sf /workdir/immortalwrt $GITHUB_WORKSPACE/immortalwrt
-
+        
     - name: Cache
       uses: klever1988/cachewrtbuild@main
       with:
@@ -97,7 +99,6 @@ jobs:
       run: |
         [ -e files ] && mv files immortalwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE immortalwrt/.config
-        [ -z "$(cat immortalwrt/.config |grep "CONFIG_ALL_KMODS=y")" ] && echo "CONFIG_ALL_KMODS=y" >immortalwrt/.config
         chmod +x $DIY_P2_SH
         cd immortalwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
@@ -175,10 +176,6 @@ jobs:
         [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "cmcc3000M_immortalwrt" >>release.txt
-        echo "编译所有内核ipk" >>release.txt
-        echo -e "\n" >>release.txt
-        cat ${{ env.FIRMWARE }}/sha256sums >>release.txt
-
         echo "::set-output name=status::success"
 
     - name: 上传固件 release
@@ -191,4 +188,5 @@ jobs:
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
 
+        
 
