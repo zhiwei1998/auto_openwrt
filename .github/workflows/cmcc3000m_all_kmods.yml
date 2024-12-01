@@ -171,11 +171,12 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
+        echo "::set-output name=release_tag::cmcc3000m_all"
         touch release.txt
         [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
-        echo "cmcc3000M_immortalwrt" >>release.txt
+        echo "cmcc3000M_all" >>release.txt
+        echo "就可能多的编译插件" >>release.txt
         echo "::set-output name=status::success"
 
     - name: 上传固件 release
