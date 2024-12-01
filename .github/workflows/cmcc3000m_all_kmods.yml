@@ -62,7 +62,7 @@ jobs:
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         curl -sSL https://build-scripts.immortalwrt.eu.org/init_build_environment.sh | sudo bash
-        sudo -E apt-get -qq install rename
+        sudo -E apt-get -qq install rename screen
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -75,7 +75,7 @@ jobs:
         df -hT $PWD
         git clone --depth=1 $REPO_URL immortalwrt
         ln -sf /workdir/immortalwrt $GITHUB_WORKSPACE/immortalwrt
-        
+
     - name: Cache
       uses: klever1988/cachewrtbuild@main
       with:
@@ -117,7 +117,7 @@ jobs:
       run: |
         cd immortalwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(nproc) V=s|| make -j1 || make -j1 V=s
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
