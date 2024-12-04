@@ -52,9 +52,11 @@ Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2sock
 #rm -rf package/lean/n2n_v2
 #cp -rf $GITHUB_WORKSPACE/n2n_v2/* package/lean/
 
-# 修改nezha配置文件
-#[ -s "feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent" ] && sed -i 's/"${secret}"/"${secret}" --skip-conn --skip-procs --disable-auto-update/g' feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent
+# 修改nezha配置文件,关闭自动更新，强制更新
+[ -s "feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent" ] && sed -i 's/"${secret}"/"${secret}" --disable-auto-update --disable-command-execute --disable-force-update/g' feeds/nezha/luci-app-nezha/root/etc/init.d/nezha-agent
 
+# 修改mwan3 放行ipv6
+sed -i 's/ip6tables -t mangle -w/\/bin\/true/g' feeds/packages/net/mwan3/files/lib/mwan3/mwan3.sh
 
 #./scripts/feeds update -a
 #./scripts/feeds install -a
