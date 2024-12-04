@@ -139,7 +139,8 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        #[ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf Backup_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1 && sudo rclone copy -P Backup_* od01:/openwrt/ && ls Backup* >$GITHUB_WORKSPACE/hjbf.txt
+        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf cmcc3000m_immortalwrt_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
+        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P cmcc3000m_immortalwrt_* od01:/openwrt/
         cd immortalwrt && pwd
 
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages
