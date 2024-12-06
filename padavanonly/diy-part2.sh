@@ -35,8 +35,11 @@ git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 
 # Replace luci-app-ssr-plus & Depends
-Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2socks microsocks redsocks2 chinadns-ng dns2socks dns2tcp naiveproxy simpl>./scripts/feeds uninstall ${Replace_package}
+Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2socks microsocks redsocks2 chinadns-ng dns2socks dns2tcp naiveproxy simple-obfs tcping tuic-client luci-app-ssr-plus"
+./scripts/feeds uninstall ${Replace_package}
 ./scripts/feeds install -f -p helloworld ${Replace_package}
+
+
 
 
 # theme
