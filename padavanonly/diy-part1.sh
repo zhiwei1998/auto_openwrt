@@ -12,6 +12,7 @@
 
 
 # Add a feed source
+echo "src-git helloworld https://github.com/fw876/helloworld.git;master" >> "feeds.conf.default"
 #echo 'src-git nezha https://github.com/Erope/openwrt_nezha' >>feeds.conf.default
 echo 'src-git nezha https://github.com/zhiwei1998/openwrt_nezha' >>feeds.conf.default
 
