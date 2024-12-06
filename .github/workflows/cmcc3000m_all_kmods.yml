@@ -139,8 +139,9 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf cmcc3000m_immortalwrt_all_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
-        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P cmcc3000m_immortalwrt_all_* od01:/openwrt/
+        [ $UPLOAD_SERVER = true ] && sleep 3600
+        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf /tmp/cmcc3000m_immortalwrt_all_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
+        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P /tmp/cmcc3000m_immortalwrt_all_* od01:/openwrt/
         cd immortalwrt && pwd
 
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages
