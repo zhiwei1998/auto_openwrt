@@ -23,8 +23,8 @@ env:
   REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x.git
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: cmcc3000m/v9.config
-  DIY_P1_SH: cmcc3000m_diy-part1.sh
-  DIY_P2_SH: cmcc3000m_diy-part2.sh
+  DIY_P1_SH: hanwckf/diy-part1.sh
+  DIY_P2_SH: hanwckf/diy-part2.sh
   KMODS_IN_FIRMWARE: true
   UPLOAD_SERVER: true
   UPLOAD_BIN_DIR: true
@@ -41,7 +41,22 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
-
+      
+    - name: 释放Ubuntu磁盘空间
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed,
+        # if set to "true" but frees about 6 GB
+        tool-cache: true
+        # all of these default to true, but feel free to set to
+        # "false" if necessary for your workflow
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
+        
     - name: 安装rclone、哪吒监控
       if: env.UPLOAD_SERVER == 'true'
       run: |
@@ -60,7 +75,6 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         curl -sSL https://build-scripts.immortalwrt.eu.org/init_build_environment.sh | sudo bash
         sudo -E apt-get -qq install rename screen
         sudo -E apt-get -qq autoremove --purge
@@ -140,8 +154,8 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         [ $UPLOAD_SERVER = true ] && sleep 3600
-        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf /tmp/cmcc3000m_immortalwrt_all_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
-        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P /tmp/cmcc3000m_immortalwrt_all_* od01:/openwrt/
+        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf /mnt/cmcc3000m_immortalwrt_all_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
+        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P /mnt/cmcc3000m_immortalwrt_all_* od01:/openwrt/
         cd immortalwrt && pwd
 
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages

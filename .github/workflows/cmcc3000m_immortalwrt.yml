@@ -20,11 +20,11 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x.git
+  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x.git
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: cmcc3000m.config
-  DIY_P1_SH: cmcc3000m_diy-part1.sh
-  DIY_P2_SH: cmcc3000m_diy-part2.sh
+  CONFIG_FILE: padavanonly/cmcc3000m.config
+  DIY_P1_SH: padavanonly/diy-part1.sh
+  DIY_P2_SH: padavanonly/diy-part2.sh
   KMODS_IN_FIRMWARE: true
   UPLOAD_SERVER: true
   UPLOAD_BIN_DIR: true
@@ -42,6 +42,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    - name: 释放Ubuntu磁盘空间
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed,
+        # if set to "true" but frees about 6 GB
+        tool-cache: true
+        # all of these default to true, but feel free to set to
+        # "false" if necessary for your workflow
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
+
+
     - name: 安装rclone、哪吒监控
       if: env.UPLOAD_SERVER == 'true'
       run: |
@@ -53,16 +69,14 @@ jobs:
         echo 更新nezha配置
         #curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/install.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
         chmod +x nezha.sh && sudo ./nezha.sh install_agent ${{ secrets.JK_IP }} 25566 5998a03097e84c88d4
-
         #curl -L ${{ secrets.CONFIG_PATH }}/nezha.sh -o nezha.sh && chmod +x nezha.sh && sudo ./nezha.sh
 
     - name: 初始化环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         curl -sSL https://build-scripts.immortalwrt.eu.org/init_build_environment.sh | sudo bash
-        sudo -E apt-get -qq install rename
+        sudo -E apt-get -qq install rename screen
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -75,7 +89,7 @@ jobs:
         df -hT $PWD
         git clone --depth=1 $REPO_URL immortalwrt
         ln -sf /workdir/immortalwrt $GITHUB_WORKSPACE/immortalwrt
-        
+
     - name: Cache
       uses: klever1988/cachewrtbuild@main
       with:
@@ -139,8 +153,8 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf cmcc3000m_immortalwrt_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
-        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P cmcc3000m_immortalwrt_* od01:/openwrt/
+        [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf /mnt/cmcc3000m_immortalwrt_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
+        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P /mnt/cmcc3000m_immortalwrt_* od01:/openwrt/
         cd immortalwrt && pwd
 
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages
@@ -177,6 +191,7 @@ jobs:
         [ $UPLOAD_COUPLOAD_COWTRANSFERWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "cmcc3000M_immortalwrt" >>release.txt
+        echo "使用：https://github.com/padavanonly/immortalwrt-mt798x 源码进行编译" >>release.txt
         echo "::set-output name=status::success"
 
     - name: 上传固件 release
@@ -188,6 +203,3 @@ jobs:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
-
-        
-
