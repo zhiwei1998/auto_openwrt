@@ -26,7 +26,7 @@ env:
   DIY_P1_SH: padavanonly/diy-part1.sh
   DIY_P2_SH: padavanonly/diy-part2.sh
   KMODS_IN_FIRMWARE: true
-  UPLOAD_SERVER: false
+  UPLOAD_SERVER: true
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: false
@@ -149,14 +149,15 @@ jobs:
         name: immortalwrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: immortalwrt/bin
 
+
     - name: 整理文件，上传rclone
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         [ $UPLOAD_SERVER = true ] && sleep 3600
         [ $UPLOAD_SERVER = true ] && cd immortalwrt && pwd && cd .. && tar -zcvpf /mnt/cmcc3000m_immortalwrt_$(date +"%Y.%m.%d-%H%M").tar.gz /workdir/immortalwrt >/dev/null 2>&1
-        [ $UPLOAD_SERVER = true ] && sudo rclone copy -P /mnt/cmcc3000m_immortalwrt_* od01:/openwrt/
-        
+        [ $UPLOAD_SERVER = true ] && sudo rclone copy /mnt/cmcc3000m_immortalwrt_* od01:/openwrt/
+
         cd immortalwrt && pwd
 
         [ $KMODS_IN_FIRMWARE = true ] && cd ./bin && zip -q -r bin.zip packages
@@ -174,6 +175,7 @@ jobs:
       with:
         name: immortalwrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
+
 
     - name: 将固件上载到 WeTransfer
       id: wetransfer
