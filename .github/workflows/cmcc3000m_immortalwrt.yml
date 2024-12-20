@@ -26,7 +26,7 @@ env:
   DIY_P1_SH: padavanonly/diy-part1.sh
   DIY_P2_SH: padavanonly/diy-part2.sh
   KMODS_IN_FIRMWARE: true
-  UPLOAD_SERVER: true
+  UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: false
