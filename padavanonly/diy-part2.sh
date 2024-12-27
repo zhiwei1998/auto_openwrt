@@ -40,10 +40,10 @@ Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2sock
 ./scripts/feeds install -f -p helloworld ${Replace_package}
 
 
-./scripts/feeds uninstall istore luci-app-store
-echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.default
-./scripts/feeds update istore
-./scripts/feeds install -d y -p istore luci-app-store
+#./scripts/feeds uninstall istore luci-app-store
+#echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.default
+#./scripts/feeds update istore
+#./scripts/feeds install -d y -p istore luci-app-store
 
 
 # theme
