@@ -40,6 +40,10 @@ Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2sock
 ./scripts/feeds install -f -p helloworld ${Replace_package}
 
 
+# 更换istore商店源
+find ./ -depth -name "istore" -exec rm -rf {} +
+
+git clone https://github.com/linkease/istore package/istore
 
 
 # theme
