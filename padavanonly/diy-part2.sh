@@ -63,3 +63,6 @@ sed -i 's/ip6tables -t mangle -w/\/bin\/true/g' feeds/packages/net/mwan3/files/l
 #./scripts/feeds update -a
 #./scripts/feeds install -a
 
+# 添加oaf应用过滤
+find ./ -name "luci-app-appfilter" -exec rm -rf {} +
+git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
