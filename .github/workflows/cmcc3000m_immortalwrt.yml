@@ -17,7 +17,11 @@ on:
       nezha_server:
         description: '哪吒监控'
         required: false
-        default: 'false'
+        default: 'true'
+        type: choice
+        options:
+          - true
+          - false
       config_source:
         description: "选择编译源和配置"
         required: false
