@@ -14,18 +14,27 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      ssh:
-        description: 'SSH connection to Actions'
+      nezha_server:
+        description: '哪吒监控'
         required: false
         default: 'false'
+      config_source:
+        description: "选择编译源和配置"
+        required: false
+        default: "padavanonly"
+        type: choice
+        options:
+          - padavanonly
+          - hanwckf
 
 env:
-  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x.git
+  REPO_URL: https://github.com/${{ inputs.config_source }}/immortalwrt-mt798x.git
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: padavanonly/cmcc3000m.config
-  DIY_P1_SH: padavanonly/diy-part1.sh
-  DIY_P2_SH: padavanonly/diy-part2.sh
+  CONFIG_FILE: ${{ inputs.config_source }}/cmcc3000m.config
+  DIY_P1_SH: ${{ inputs.config_source }}/diy-part1.sh
+  DIY_P2_SH: ${{ inputs.config_source }}/diy-part2.sh
   KMODS_IN_FIRMWARE: true
+  NEZHA_SERVER: ${{ inputs.nezha_server }}
   UPLOAD_SERVER: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
@@ -59,7 +68,7 @@ jobs:
 
 
     - name: 安装rclone、哪吒监控
-      if: env.UPLOAD_SERVER == 'true'
+      if: env.NEZHA_SERVER == 'true'
       run: |
         echo $GITHUB_WORKSPACE
         curl https://rclone.org/install.sh | sudo bash
